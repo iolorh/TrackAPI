@@ -1,0 +1,16 @@
+fastapi
+uvicorn[standard]
+pydantic
+jinja2
+python-multipart
+bcrypt
+python-dotenv
+httpx
+deepdiff
+fastapi-mail
+gunicorn
+uvicorn
+uvicorn-worker
+itsdangerous
+resend[async]
+tzdata

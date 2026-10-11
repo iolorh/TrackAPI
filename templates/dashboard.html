@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-YV34G153F4"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-YV34G153F4');
+        </script>        
+        <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+        <meta name = "description" content="TrackAPI monitors your website's APIs automatically with detailed feedback on changes, such as endpoint, schemas, response changes.">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="keywords" content="API, Track, Automatic, Monitor, Spec, OpenAPI">
+        <meta charset="UTF-8">        
+        <title>TrackAPI - Dashboard</title>
+        <link rel="stylesheet" href="/static/style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+    </head>
+    <body>  
+        <div class="top">
+            <h1 class="logo">TRACKAPI</h1>
+            <form style="width:375px; display:flex; justify-content:space-between; align-items:center" method="get">
+                <button formaction="/dashboard" style="background-color:#C6DCE8; color:#242424; border: 1px solid #2B2B2B; box-shadow: 2px 2px 0 #2B2B2B;">Dashboard</button>
+                <button formaction = "/allapis" class="notclicked">APIs</button>
+                <button formaction="/allchanges" class="notclicked">Changes</button>
+            </form>
+            <div style="width:375px; display:flex; justify-content:space-between; align-items:center;">
+                <p class="line">|</p>
+                {% if email %}
+                    <p>{{ email }}</p>
+                    <form action="/logout" method="post">
+                        <button type="submit">Log out</button>
+                    </form>
+                {% else %}
+                    <form action="/signin-page" method="get">
+                        <button type="submit">Log in</button>
+                    </form>
+                {% endif %}    
+            </div>
+        </div>
+        <div class="main">
+            <div class="apisection">
+                <form class= "addapiform" action="/add-api" method = "post">
+                    <div class="addapiformtop">
+                        <h2>Add an API</h2>
+                        <p style="color:#6E7470; font-size:12px;">START MONITORING IN SECONDS</p>
+                    </div>
+                    <div class="addapiformmiddle">
+                        <div class="labelandinput">
+                            <label for="name">Name</label>
+                            <input maxlength = "20" id="name" type = "text" placeholder ="e.g. Stripe API" name="name" required>
+                        </div>
+                        <div class="labelandinput" style="width:100%;">
+                            <label for="url">Specification URL</label>
+                            <input id="url" type = "text" placeholder = "e.g. https://example.com/openapi.json" name="url" required>
+                        </div>
+                    </div>
+                    <button class="addapibutton" style="float:right;margin-top:10px;">+ Add API</button>
+                </form>
+                <div class="apiscard">
+                    <div class="apiscardtop">
+                        <div style="display:flex; align-items:center; gap:15px;">
+                            <h2>Your APIs</h2>
+                            <p style="font-weight: 700; color: #242424; background: #D7E6EE; padding-top:2px; padding-bottom:2px; padding-left:10px; padding-right: 10px; border-radius:10px; border: 1px solid #A9BEC9">{{ apisAmount }}</p>
+                        </div>
+                        <form action = "/allapis" method="get">
+                            <button>View all ➜</button>
+                        </form>
+                        <p id="big" style="color:#6E7470; font-size:12px;">MANAGE YOUR ENDPOINTS</p>
+                    </div>
+                    {% if not apis %}
+                        <p style="color:#6E7470; font-size:12px;">Add your first API to get started</p>
+                    {% else %}
+                        {% for api in apis[:2] %}
+                            <div class="api">
+                                <div class="apitop">
+                                    <h3>{{ api.name }}</h3>
+                                    <form>
+                                        <button type="submit" formaction="/apis/{{ api.id }}/check" formmethod="post">Check now</button>
+                                        <button style="background-color: #D3A8AC; color:#B95C61;" type="submit" formaction="/apis/{{ api.id }}/delete" formmethod="post">─</button>
+                                    </form>
+                                </div>
+                                <p style="color:#6E7470; font-size:12px;">{{ api.url }}</p>
+                                <div class="apibottom">
+                                    <p style="color:#6E7470; font-size:12px;">Last checked {{ api.last_checked["day"] }} {{ api.last_checked["month"] }} - {{ api.last_checked["time"] }}</p>
+                                </div>
+                            </div>
+                            <p></p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="changesection">
+                <div class="summary">
+                    <div class="summary-widget" id="iolo" style="width:200px; align-items:center;">
+                        <p><span class="widgetNumber">{{ status }}</span> healthy</p>
+                    </div>
+                    <div class="summary-widget">
+                        <p><span class="widgetNumber">{{ apisAmount}}</span><span style="font-weight:400; font-size:13px;"> APIs</span></p>
+                    </div>
+                    <div class="summary-widget">
+                        <p><span class="widgetNumber">{{ changesAmount}}</span><span style="font-weight:400; font-size:13px;"> changes</span></p>
+                    </div>
+                    <div class="summary-widget">
+                        <p><span class="widgetNumber">{{ breakingAmount}}</span><span style="font-weight:400; font-size:13px;"> breaking</span></p>
+                    </div>
+                </div>
+                <div class="changescard">
+                    <div class="changescardtop">
+                        <h2>Recent changes</h2>
+                        <form action="/allchanges" method="get">
+                            <button> View all ➜ </button>
+                        </form>
+                    </div>
+                    {% if message %}
+                        <p style="font-size:13px; color:#6E7470;">{{ message }}</p>
+                    {% endif %}
+                    <div class="changes">
+                        {% if not changes %}
+                            <p style="color:#6E7470; font-size:12px;">No changes</p>
+                        {% else %}
+                            {% for change in changes[:3] %}
+                                <div class="changetop">
+                                    <p style="font-size:20px;">{{ change.breaking }}</p>
+                                    <div style="display:flex; justify-content: space-between; align-items:center; width:100%;">
+                                        <h3>{{ change.api_name }}</h3>
+                                        <p>{{ change.detected_at["day"] }} {{ change.detected_at["month"] }} - {{ change.detected_at["time"] }}</p>
+                                    </div>
+                                </div>
+                                <div style="margin-left:70px; margin-top: -10px;">
+                                    <p style="color:#55646B;">{{ change.type }}</p>
+                                    <p>{{ change.description }}</p>
+                                </div>
+                                <hr>
+                            {% endfor %}
+                        {% endif %}    
+                    </div>
+                </div>
+            </div>    
+        </div>
+    </body>
+</html>

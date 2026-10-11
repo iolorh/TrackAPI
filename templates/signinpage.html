@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-YV34G153F4"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-YV34G153F4');
+        </script>    
+        <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+        <meta name = "description" content="TrackAPI monitors your website's APIs automatically with detailed feedback on changes, such as endpoint, schemas, response changes.">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="keywords" content="API, Track, Automatic, Monitor, Spec, OpenAPI">
+        <meta charset="UTF-8">        
+        <title>TrackAPI - Sign-in</title>
+        <link rel="stylesheet" href="/static/style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+    </head>
+    <body id="signinbody">
+        <div class="signindiv">
+            <h1 class="logo">TRACKAPI</h1>
+            <form style="display:flex; flex-direction:column; justify-content:center; align-items:center; gap:50px;" method="post">
+                <div id="logininput">
+                    <input type="email" placeholder="Email" name="email" required>
+                    <input type="password" placeholder="Password" name="password" required>
+                </div>
+                <button style="width: 175px; font-family: 'Pixelify Sans', sans-serif; font-weight: 400; font-size:20px;" class="notclicked" type = "submit" formaction="/signin-page/login">Log in</button>
+                <button style="width: 175px; font-family: 'Pixelify Sans', sans-serif; font-weight: 400; font-size:20px;" class="notclicked" type = "submit" formaction="/signin-page/register">Register</button>
+                {% if message %}
+                    <p style="display:flex; justify-content:center; align-items:center;">{{ message }}</p>
+                {% endif %}
+            </form>
+        </div>
+    </body>
+
+
+
+</html>
