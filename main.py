@@ -620,34 +620,3 @@ def sitemap():
         "static/sitemap.xml",
         media_type="application/xml"
     )
-
-# @app.get("/jsontestexample")
-# def jsontestexample():
-#     return FileResponse("jsonfile.json")
-
-
-
-# @app.post("/test")
-# def test():
-#     return "dfsdf"
-
-# @app.post("/another-test")
-# def test2():
-#     return "dfsdf"
-
-
-# @app.get("/another-test")
-# def test2get():
-#     return "dfsdf"
-
-# @app.get("/sfddf")
-# def sdflsjdf():
-#     return "sdjfkld"
-
-# @app.post("/sfddf")
-# def sdfsdjlfsklk():
-#     return "dsfsd"
-
-# @app.put("/another-test")
-# def sdfjskldfsjjjjjj():
-#     return "sdfsdsssss"
